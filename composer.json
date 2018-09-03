@@ -25,6 +25,6 @@
     "require": {
         "php": ">=5.6",
         "symfony/symfony": "^3.0|^2.8",
-        "sidus/eav-model-bundle": "1.2.*"
+        "sidus/eav-model-bundle": "1.2.*|dev-v1.2-dev"
     }
 }
