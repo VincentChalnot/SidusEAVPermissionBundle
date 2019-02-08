@@ -1,8 +1,0 @@
-services:
-    sidus_eav_permission.form.attribute_builder.tabbed:
-        class: Sidus\EAVPermissionBundle\Form\AttributePermissionFormHandler
-        decorates: sidus_eav_bootstrap.form.attribute_builder.tabbed
-        arguments:
-            - '@sidus_eav_permission.form.attribute_builder.tabbed.inner'
-            - '@security.token_storage'
-            - '@security.authorization_checker'

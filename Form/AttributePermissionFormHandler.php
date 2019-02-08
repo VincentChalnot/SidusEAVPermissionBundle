@@ -12,10 +12,10 @@ namespace Sidus\EAVPermissionBundle\Form;
 
 use Sidus\EAVModelBundle\Form\AttributeFormBuilderInterface;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
-use Sidus\EAVPermissionBundle\Security\Permission;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Overrides base attribute form builder to handle permissions
@@ -49,22 +49,18 @@ class AttributePermissionFormHandler implements AttributeFormBuilderInterface
     }
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param AttributeInterface   $attribute
-     * @param array                $options
-     *
-     * @throws \Exception
+     * {@inheritdoc}
      */
     public function addAttribute(
         FormBuilderInterface $builder,
         AttributeInterface $attribute,
         array $options = []
-    ) {
+    ): void {
         // Not (Read OR edit)
-        if (!$this->authorizationChecker->isGranted([Permission::READ, Permission::EDIT], $attribute)) {
+        if (!$this->authorizationChecker->isGranted(['read', 'edit'], $attribute)) {
             return;
         }
-        if (!$this->authorizationChecker->isGranted(Permission::EDIT, $attribute)) {
+        if (!$this->authorizationChecker->isGranted('edit', $attribute)) {
             $options['form_options']['disabled'] = true;
         }
 
@@ -72,14 +68,19 @@ class AttributePermissionFormHandler implements AttributeFormBuilderInterface
     }
 
     /**
-     * @return \Symfony\Component\Security\Core\User\UserInterface|null
+     * @return UserInterface|null
      */
-    protected function getUser()
+    protected function getUser(): ?UserInterface
     {
         if (!$this->tokenStorage->getToken()) {
             return null;
         }
 
-        return $this->tokenStorage->getToken()->getUser();
+        $user = $this->tokenStorage->getToken()->getUser();
+        if ($user instanceof UserInterface) {
+            return $user;
+        }
+
+        return null;
     }
 }

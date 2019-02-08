@@ -12,6 +12,9 @@ namespace Sidus\EAVPermissionBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * @author Vincent Chalnot <vincent@sidus.fr>
+ */
 class SidusEAVPermissionBundle extends Bundle
 {
 }

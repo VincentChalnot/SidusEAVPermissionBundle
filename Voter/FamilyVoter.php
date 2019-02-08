@@ -11,7 +11,6 @@
 namespace Sidus\EAVPermissionBundle\Voter;
 
 use Sidus\EAVModelBundle\Model\FamilyInterface;
-use Sidus\EAVPermissionBundle\Security\Permission;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -36,10 +35,8 @@ class FamilyVoter implements VoterInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): ?int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
 
@@ -55,10 +52,6 @@ class FamilyVoter implements VoterInterface
 
         $result = VoterInterface::ACCESS_DENIED;
         foreach ($attributes as $attribute) {
-            if (!\in_array($attribute, Permission::getPermissions(), true)) {
-                throw new \UnexpectedValueException("Invalid permission '{$attribute}'");
-            }
-
             if (!array_key_exists($attribute, $permissions)) {
                 return VoterInterface::ACCESS_GRANTED; // No permissions means access is granted
             }

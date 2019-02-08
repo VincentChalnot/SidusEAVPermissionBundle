@@ -1,21 +1,18 @@
 services:
-    sidus_eav_permission.voter.attribute:
-        class: Sidus\EAVPermissionBundle\Voter\AttributeVoter
+    Sidus\EAVPermissionBundle\Voter\AttributeVoter:
         arguments:
-            - '@security.access.decision_manager'
+            - '@Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface'
         tags:
             - { name: security.voter }
 
-    sidus_eav_permission.voter.family:
-        class: Sidus\EAVPermissionBundle\Voter\FamilyVoter
+    Sidus\EAVPermissionBundle\Voter\FamilyVoter:
         arguments:
-            - '@security.access.decision_manager'
+            - '@Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface'
         tags:
             - { name: security.voter }
 
-    sidus_eav_permission.voter.eav_data:
-        class: Sidus\EAVPermissionBundle\Voter\EAVDataVoter
+    Sidus\EAVPermissionBundle\Voter\EAVDataVoter:
         arguments:
-            - '@sidus_eav_permission.voter.family'
+            - '@Sidus\EAVPermissionBundle\Voter\FamilyVoter'
         tags:
             - { name: security.voter }

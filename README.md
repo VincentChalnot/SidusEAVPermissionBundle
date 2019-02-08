@@ -42,11 +42,10 @@ Symfony's security component:
 
 use Sidus\EAVModelBundle\Model\FamilyInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Sidus\EAVPermissionBundle\Security\Permission;
 
 /** @var FamilyInterface $family */
 /** @var AuthorizationCheckerInterface $securityChecker **/
-$securityChecker->isGranted(Permission::EDIT, $family);
+$securityChecker->isGranted('edit', $family);
 ````
 
 |  Note   |

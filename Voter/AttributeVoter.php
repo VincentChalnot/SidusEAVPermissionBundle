@@ -11,7 +11,6 @@
 namespace Sidus\EAVPermissionBundle\Voter;
 
 use Sidus\EAVModelBundle\Model\AttributeInterface;
-use Sidus\EAVPermissionBundle\Security\Permission;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -36,10 +35,8 @@ class AttributeVoter implements VoterInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): ?int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         if (!$object instanceof AttributeInterface) {
@@ -51,8 +48,8 @@ class AttributeVoter implements VoterInterface
         }
 
         foreach ($attributes as $attribute) {
-            if (!\in_array($attribute, [Permission::EDIT, Permission::READ], true)) {
-                throw new \UnexpectedValueException('Unsupported Attribute permission type '.$attribute);
+            if (!\in_array($attribute, ['edit', 'read'], true)) {
+                throw new \UnexpectedValueException("Unsupported Attribute permission type {$attribute}");
             }
 
             if (!array_key_exists($attribute, $permissions)) {

@@ -34,10 +34,8 @@ class EAVDataVoter implements VoterInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Exception
      */
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): ?int
     {
         if ($object instanceof DataInterface) {
             return $this->familyVoter->vote($token, $object->getFamily(), $attributes);

@@ -1,6 +1,6 @@
 services:
     Sidus\EAVPermissionBundle\Form\AttributePermissionFormHandler:
-        decorates: Sidus\EAVModelBundle\Form\AttributeFormBuilderInterface
+        decorates: Sidus\EAVBootstrapBundle\Form\TabbedAttributeFormBuilder
         arguments:
             - '@Sidus\EAVPermissionBundle\Form\AttributePermissionFormHandler.inner'
             - '@Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface'

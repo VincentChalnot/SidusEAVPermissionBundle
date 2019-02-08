@@ -13,6 +13,8 @@ namespace Sidus\EAVPermissionBundle\Security;
 /**
  * Lists all permissions attributes
  *
+ * @deprecated Since v2.0: Permissions should not be bounded, don't use this class anymore
+ *
  * @author Vincent Chalnot <vincent@sidus.fr>
  */
 class Permission
@@ -37,7 +39,7 @@ class Permission
     /**
      * @return array
      */
-    public static function getPermissions()
+    public static function getPermissions(): array
     {
         return self::$permissions;
     }
