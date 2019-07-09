@@ -13,9 +13,7 @@ namespace Sidus\EAVPermissionBundle\Form;
 use Sidus\EAVModelBundle\Form\AttributeFormBuilderInterface;
 use Sidus\EAVModelBundle\Model\AttributeInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Overrides base attribute form builder to handle permissions
@@ -27,24 +25,18 @@ class AttributePermissionFormHandler implements AttributeFormBuilderInterface
     /** @var AttributeFormBuilderInterface */
     protected $baseAttributeFormBuilder;
 
-    /** @var TokenStorageInterface */
-    protected $tokenStorage;
-
     /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;
 
     /**
      * @param AttributeFormBuilderInterface $baseAttributeFormBuilder
-     * @param TokenStorageInterface         $tokenStorage
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         AttributeFormBuilderInterface $baseAttributeFormBuilder,
-        TokenStorageInterface $tokenStorage,
         AuthorizationCheckerInterface $authorizationChecker
     ) {
         $this->baseAttributeFormBuilder = $baseAttributeFormBuilder;
-        $this->tokenStorage = $tokenStorage;
         $this->authorizationChecker = $authorizationChecker;
     }
 
@@ -65,22 +57,5 @@ class AttributePermissionFormHandler implements AttributeFormBuilderInterface
         }
 
         $this->baseAttributeFormBuilder->addAttribute($builder, $attribute, $options);
-    }
-
-    /**
-     * @return UserInterface|null
-     */
-    protected function getUser(): ?UserInterface
-    {
-        if (!$this->tokenStorage->getToken()) {
-            return null;
-        }
-
-        $user = $this->tokenStorage->getToken()->getUser();
-        if ($user instanceof UserInterface) {
-            return $user;
-        }
-
-        return null;
     }
 }
